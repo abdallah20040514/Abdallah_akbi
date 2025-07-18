@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تأكيد الحجز</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* تحسين خانات الإدخال للنموذج */
+        #reserve-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 0;
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            width: 100%;
+        }
+        #reserve-form input, #reserve-form textarea {
+            background: rgba(20,30,60,0.85);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.08rem;
+            padding: 12px 14px;
+            outline: none;
+            box-shadow: 0 2px 12px #0003;
+            transition: background 0.2s, box-shadow 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #reserve-form input:focus, #reserve-form textarea:focus {
+            background: rgba(0,191,255,0.18);
+            box-shadow: 0 0 8px #00bfff;
+        }
+        #reserve-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        #reserve-form button[type="submit"] {
+            background: var(--main-blue);
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 0;
+            font-size: 1.13rem;
+            cursor: pointer;
+            box-shadow: 0 0 16px var(--main-blue);
+            transition: background 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+        #reserve-form button[type="submit"]:hover {
+            background: #fff;
+            color: var(--main-blue);
+            box-shadow: 0 0 32px #fff, 0 0 48px var(--main-blue);
+        }
+        @media (max-width: 600px) {
+            .form-row { flex-direction: column; gap: 8px; }
+        }
+        #reserve-form input:focus, #reserve-form textarea:focus {
+            background: rgba(0,191,255,0.18);
+            box-shadow: 0 0 8px #00bfff;
+        }
+        #reserve-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        #reserve-form button[type="submit"] {
+            background: var(--main-blue);
+            color: #fff;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 0;
+            font-size: 1.13rem;
+            cursor: pointer;
+            box-shadow: 0 0 16px var(--main-blue);
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        #reserve-form button[type="submit"]:hover {
+            background: #fff;
+            color: var(--main-blue);
+            box-shadow: 0 0 32px #fff, 0 0 48px var(--main-blue);
+        }
+        /* أزرار التواصل أسفل النموذج */
+        .contact-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 38px;
+            margin-bottom: 0;
+            width: 100%;
+        }
+        .side-btn-rect {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 140px;
+            max-width: 220px;
+            width: 70vw;
+            padding: 11px 10px;
+            border-radius: 28px;
+            font-size: 1.08rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 18px #0004;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+            margin-bottom: 0;
+            text-align: center;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+        .side-btn-rect span {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 1.08rem;
+            margin-right: 2px;
+            margin-left: 2px;
+            letter-spacing: 0.5px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .side-btn-rect img {
+            width: 28px; height: 28px; flex-shrink: 0;
+        }
+        .side-btn-rect img {
+            width: 28px; height: 28px;
+        }
+        .side-btn-rect.whatsapp {
+            background: linear-gradient(90deg, #25d366 70%, #fff0 100%);
+            color: #fff;
+            box-shadow: 0 0 18px #25d36699;
+        }
+        .side-btn-rect.whatsapp:hover {
+            background: linear-gradient(90deg, #25d366 80%, #fff 100%);
+            color: #222;
+            box-shadow: 0 0 32px #25d366cc;
+            transform: scale(1.04);
+        }
+        .side-btn-rect.telegram {
+            background: linear-gradient(90deg, #229ed9 70%, #fff0 100%);
+            color: #fff;
+            box-shadow: 0 0 18px #229ed999;
+        }
+        .side-btn-rect.telegram:hover {
+            background: linear-gradient(90deg, #229ed9 80%, #fff 100%);
+            color: #222;
+            box-shadow: 0 0 32px #229ed9cc;
+            transform: scale(1.04);
+        }
+        @media (max-width: 900px) {
+            .side-buttons { left: 6px; }
+            .side-btn-rect {
+                min-width: 150px;
+                max-width: 180px;
+                width: 150px;
+                font-size: 0.97rem;
+                padding: 10px 8px;
+            }
+            .side-btn-rect span { font-size: 0.97rem; }
+        }
+        @media (max-width: 600px) {
+            .side-buttons {
+                position: fixed !important;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: auto;
+                width: 100vw;
+                flex-direction: row;
+                justify-content: center;
+                align-items: flex-end;
+                gap: 32px;
+                margin: 0;
+                padding: 18px 0 28px 0;
+                background: linear-gradient(0deg, rgba(10,15,44,0.97) 80%, rgba(10,15,44,0.7) 100%, transparent 100%);
+                z-index: 100;
+                box-sizing: border-box;
+                transform: none;
+            }
+            .side-btn-rect {
+                min-width: 170px;
+                max-width: 90vw;
+                width: 70vw;
+                font-size: 1.32rem;
+                padding: 22px 0;
+                border-radius: 44px;
+                margin: 0 8px;
+                box-shadow: 0 4px 32px #0007;
+                white-space: nowrap;
+                text-align: center;
+                font-weight: 900;
+            }
+            .side-btn-rect span {
+                font-size: 1.32rem;
+                font-weight: 900;
+                letter-spacing: 0.5px;
+                line-height: 1.2;
+                display: block;
+                width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .side-btn-rect img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        body { min-height: 100vh; }
+        .reservation-container {
+            background: rgba(10,15,44,0.92);
+            border-radius: 18px;
+            box-shadow: 0 0 0 4px #00bfff33, 0 6px 24px #00bfff22;
+            width: 80%;
+            max-width: 400px;
+            margin: 48px auto 24px auto;
+            padding: 22px 10px 18px 10px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        .reservation-title {
+            color: #00bfff;
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .reservation-info {
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            text-align: right;
+            direction: rtl;
+        }
+        .reservation-info.name span:last-child { color: #00e396; font-weight: bold; }
+        .reservation-info.last span:last-child { color: #a259ff; font-weight: bold; }
+        .reservation-info.phone span:last-child { color: #00bfff; font-weight: bold; }
+        .reservation-info.email span:last-child { color: #ffb300; font-weight: bold; }
+        /* .reservation-message الأساسي في style.css */
+        .reservation-label {
+            color: #a259ff;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+        /* تم حذف التكرار - اللون من style.css */
+        .side-buttons {
+            position: fixed;
+            top: 50%;
+            left: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            z-index: 30;
+            transform: translateY(-50%);
+        }
+        .side-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00bfff 60%, #a259ff 100%);
+            box-shadow: 0 0 16px #00bfff88;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+        .side-btn:hover {
+            background: linear-gradient(135deg, #a259ff 60%, #00bfff 100%);
+            box-shadow: 0 0 32px #a259ffcc;
+            transform: scale(1.08);
+        }
+        .side-btn img {
+            width: 32px; height: 32px;
+        }
+        @media (max-width: 600px) {
+            .reservation-container {
+                width: 92vw;
+                max-width: 98vw;
+                padding: 7vw 2vw 5vw 2vw;
+                margin: 10vw auto 4vw auto;
+                box-shadow: 0 0 0 2px #00bfff33, 0 2px 8px #00bfff22;
+            }
+            .side-buttons { left: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- خلفية 3D: شموع يابانية ومنحنى -->
+    <canvas id="candlestick-bg" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;"></canvas>
+    <canvas id="stars-bg"></canvas>
+    <div class="reservation-container" id="form-container">
+        <div class="reservation-title">نموذج الحجز الإلكتروني</div>
+        <form id="reserve-form" style="text-align:right;direction:rtl;">
+            <div class="form-row">
+                <input type="text" name="firstName" placeholder="الاسم" required autocomplete="off">
+                <input type="text" name="lastName" placeholder="اللقب" required autocomplete="off">
+            </div>
+            <input type="tel" name="phone" placeholder="رقم الهاتف" required autocomplete="off">
+            <input type="email" name="email" placeholder="البريد الإلكتروني" required autocomplete="off">
+            <textarea name="message" placeholder="رسالتك أو استفسارك" required autocomplete="off"></textarea>
+            <button type="submit">إرسال</button>
+        </form>
+        <div class="contact-actions">
+            <button class="side-btn-rect whatsapp" id="wa-link" type="button">
+              
+                <span>تواصل عبر واتساب</span>
+            </button>
+            <button class="side-btn-rect telegram" id="tg-link" type="button">
+              
+                <span>تواصل عبر تيليجرام</span>
+            </button>
+        </div>
+    </div>
+    <div class="reservation-container" id="result-container" style="display:none;">
+        <div class="reservation-title">تم إرسال طلب الحجز بنجاح</div>
+        <div class="reservation-info name"><span class="reservation-label">الاسم:</span> <span id="r-name"></span></div>
+        <div class="reservation-info last"><span class="reservation-label">اللقب:</span> <span id="r-last"></span></div>
+        <div class="reservation-info phone"><span class="reservation-label">رقم الهاتف:</span> <span id="r-phone"></span></div>
+        <div class="reservation-info email"><span class="reservation-label">البريد الإلكتروني:</span> <span id="r-email"></span></div>
+        <div class="reservation-message" id="r-message"></div>
+    </div>
+  
+    <script>
+    // خلفية النجوم المتحركة
+    const canvas = document.getElementById('stars-bg');
+    const ctx = canvas.getContext('2d');
+    let w = window.innerWidth, h = window.innerHeight;
+    let stars = [];
+    function resizeStars() {
+      w = window.innerWidth; h = window.innerHeight;
+      canvas.width = w; canvas.height = h;
+    }
+    window.addEventListener('resize', resizeStars);
+    function createStars() {
+      stars = [];
+      for(let i=0;i<120;i++){
+        stars.push({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          z: Math.random()*w,
+          o: 0.7+Math.random()*0.3
+        });
+      }
+    }
+    function drawStars() {
+      ctx.clearRect(0,0,w,h);
+      for(const s of stars){
+        let k = 128.0/s.z;
+        let px = s.x*k + w/2;
+        let py = s.y*k + h/2;
+        if(px>=0 && px<w && py>=0 && py<h){
+          ctx.beginPath();
+          ctx.arc(px,py,1.2,0,2*Math.PI);
+          ctx.fillStyle = 'rgba(0,191,255,'+s.o+')';
+          ctx.shadowColor = '#00bfff';
+          ctx.shadowBlur = 8;
+          ctx.fill();
+        }
+        s.z -= 1.2;
+        if(s.z<1) s.z = w;
+      }
+      ctx.shadowBlur = 0;
+    }
+    function animateStars(){
+      drawStars();
+      requestAnimationFrame(animateStars);
+    }
+    resizeStars();
+    createStars();
+    animateStars();
+
+    // عرض النموذج أولاً، وعند الإرسال عرض البيانات
+    const form = document.getElementById('reserve-form');
+    const formContainer = document.getElementById('form-container');
+    const resultContainer = document.getElementById('result-container');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const fd = new FormData(form);
+        document.getElementById('r-name').textContent = fd.get('firstName');
+        document.getElementById('r-last').textContent = fd.get('lastName');
+        document.getElementById('r-phone').textContent = fd.get('phone');
+        document.getElementById('r-email').textContent = fd.get('email');
+        document.getElementById('r-message').textContent = fd.get('message');
+        formContainer.style.display = 'none';
+        resultContainer.style.display = 'block';
+        // حفظ البيانات في window للحاجة عند الضغط على أزرار التواصل
+        window.reservationData = {
+            firstName: fd.get('firstName'),
+            lastName: fd.get('lastName'),
+            phone: fd.get('phone'),
+            email: fd.get('email'),
+            message: fd.get('message')
+        };
+    });
+    // إذا تم تمرير بيانات عبر الرابط (للتوافق مع أي تحويل مستقبلي)
+    function getParam(name) {
+        const url = new URL(window.location.href);
+        return url.searchParams.get(name) || '';
+    }
+    if(getParam('firstName')||getParam('lastName')||getParam('phone')||getParam('email')||getParam('message')){
+        document.getElementById('r-name').textContent = getParam('firstName');
+        document.getElementById('r-last').textContent = getParam('lastName');
+        document.getElementById('r-phone').textContent = getParam('phone');
+        document.getElementById('r-email').textContent = getParam('email');
+        document.getElementById('r-message').textContent = getParam('message');
+        formContainer.style.display = 'none';
+        resultContainer.style.display = 'block';
+        window.reservationData = {
+            firstName: getParam('firstName'),
+            lastName: getParam('lastName'),
+            phone: getParam('phone'),
+            email: getParam('email'),
+            message: getParam('message')
+        };
+    }
+    // إشعار منبثق عند الضغط على زر الإشعار
+    function showNotify(msg, color) {
+      let n = document.createElement('div');
+      n.textContent = msg;
+      n.style.position = 'fixed';
+      n.style.left = '50px';
+      n.style.top = '30px';
+      n.style.background = color || '#00bfff';
+      n.style.color = '#fff';
+      n.style.padding = '14px 22px';
+      n.style.borderRadius = '12px';
+      n.style.fontSize = '1.1rem';
+      n.style.boxShadow = '0 4px 24px #0006';
+      n.style.zIndex = 9999;
+      n.style.opacity = 0.98;
+      document.body.appendChild(n);
+      setTimeout(()=>{ n.style.opacity=0; n.style.transition='opacity 0.7s'; }, 1800);
+      setTimeout(()=>{ n.remove(); }, 2500);
+    }
+    // ربط الأزرار بفتح صفحات واتساب وتلجرام مع الرسالة
+    document.getElementById('wa-link').onclick = function() {
+      const d = window.reservationData || {};
+      const phone = d.phone || '';
+      const msg = encodeURIComponent('مرحبا، أود تأكيد الحجز.\nالاسم: ' + (d.firstName||'') + ' ' + (d.lastName||'') + '\nرقم الهاتف: ' + phone + '\nالبريد: ' + (d.email||'') + '\nالرسالة: ' + (d.message||''));
+      let url = 'https://wa.me/';
+      if(phone) url += phone.replace(/\D/g,'');
+      url += '?text=' + msg;
+      showNotify('يتم تحويلك إلى واتساب...', '#25d366');
+      setTimeout(()=>{ window.open(url, '_blank'); }, 700);
+    };
+    document.getElementById('tg-link').onclick = function() {
+      const d = window.reservationData || {};
+      const msg = encodeURIComponent('مرحبا، أود تأكيد الحجز.\nالاسم: ' + (d.firstName||'') + ' ' + (d.lastName||'') + '\nرقم الهاتف: ' + (d.phone||'') + '\nالبريد: ' + (d.email||'') + '\nالرسالة: ' + (d.message||''));
+      let url = 'https://t.me/share/url?url=&text=' + msg;
+      showNotify('يتم تحويلك إلى تلجرام...', '#229ed9');
+      setTimeout(()=>{ window.open(url, '_blank'); }, 700);
+    };
+    </script>
+    <!-- مكتبة three.js من CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
+    <script src="candlestick-bg.js"></script>
+    <script>window.addEventListener('DOMContentLoaded',()=>{ if(window.THREE) initCandlestickBG(); });</script>
+    <script src="script.js"></script>
+</body>
+</html>
